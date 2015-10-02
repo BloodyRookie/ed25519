@@ -10,7 +10,6 @@
 #include "src/ge.h"
 #include "src/sc.h"
 
-#include "src/sha512.h"
 #include "src/sha3.h"
 
 /* data for shared secret test 1 */
@@ -137,7 +136,7 @@ int sha3_test()
 {
 	uint8_t buf[200];
 	sha3_context c;
-	uint8_t hash[64];
+	unsigned char hash[64];
 	unsigned i;
 	const uint8_t c1 = 0xa3;
 
@@ -424,23 +423,6 @@ int main() {
 
 	/* sha3 test */
 	sha3_test();
-
-	sha512_context hash;
-	unsigned char r[64];
-	const unsigned char message1[] = "Hello, world!";
-	const int message1_len = strlen((char*)message1);
-	sha512_init(&hash);
-	sha512_update(&hash, message1, message1_len);
-	sha512_final(&hash, r);
-
-	uint8_t result[64];
-	sha3_context ctx;
-	sha3_init512(&ctx);
-	sha3_update(&ctx, message1, message1_len);
-	sha3_finalize(&ctx, &result);
-
-	unsigned char result2[64];
-	sha3_512(message1, message1_len, result2);
 
 	/* other tests */
 	unsigned char public_key[32], private_key[64], seed[32], scalar[32];
